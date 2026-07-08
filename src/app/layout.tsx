@@ -38,6 +38,9 @@ export default function RootLayout({
             <Link href="/backlog" className="text-sm text-gray-600 hover:text-gray-900">
               Backlog
             </Link>
+            <Link href="/leads" className="text-sm text-gray-600 hover:text-gray-900">
+              Leads
+            </Link>
           </nav>
         </header>
         <main className="flex-1 max-w-4xl w-full mx-auto px-6 py-8">{children}</main>

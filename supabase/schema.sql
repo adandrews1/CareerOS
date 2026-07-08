@@ -32,6 +32,17 @@ create table if not exists backlog_items (
   updated_at timestamptz not null default now()
 );
 
+-- Leads: outreach and opportunities you're moving toward conversion
+create table if not exists leads (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  channel text not null,
+  status text not null default 'contacted' check (status in ('contacted', 'replied', 'converted', 'lost')),
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 -- Seed starter rituals based on your CareerOS framework
 insert into rituals (title, cadence, sort_order) values
   ('Ship 1-2 artifacts (case study, thread, template)', 'weekly', 1),
@@ -46,6 +57,12 @@ on conflict (title, cadence) do nothing;
 -- This app has no login system yet (single-user, personal use), so tables are
 -- left open to the anon key rather than locked down with row-level security.
 -- Revisit this if CareerOS ever becomes multi-user.
+-- Note: disabling RLS does not grant table access on its own — the anon and
+-- authenticated roles still need explicit grants below.
 alter table rituals disable row level security;
 alter table ritual_checkins disable row level security;
 alter table backlog_items disable row level security;
+alter table leads disable row level security;
+
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on rituals, ritual_checkins, backlog_items, leads to anon, authenticated;

@@ -25,3 +25,15 @@ export interface BacklogItem {
   created_at: string;
   updated_at: string;
 }
+
+export type LeadStatus = "contacted" | "replied" | "converted" | "lost";
+
+export interface Lead {
+  id: string;
+  name: string;
+  channel: string;
+  status: LeadStatus;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
